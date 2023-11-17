@@ -17,4 +17,9 @@ public class ArticleDto {
 		return Article.builder().title(title).content(content).build();
 	}
 
+	public ArticleDto(Article article) {
+		this.title = article.getTitle();
+		this.content = article.getContent();
+	}
+
 }
