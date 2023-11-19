@@ -21,5 +21,10 @@ public class ArticleDto {
 		this.title = article.getTitle();
 		this.content = article.getContent();
 	}
+	
+	public void update(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 
 }

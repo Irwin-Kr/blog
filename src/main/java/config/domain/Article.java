@@ -1,5 +1,10 @@
 package config.domain;
 
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,8 +27,21 @@ public class Article {
 	@Column(name="content", nullable=false)
 	private String content;
 	
+	@CreatedDate
+	@Column(name = "reg_Dt")
+	private LocalDateTime reg_Dt;
+	
+	@LastModifiedDate
+	@Column(name ="mod_Dt")
+	private LocalDateTime mod_Dt;
+	
 	@Builder
 	public Article(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
+	
+	public void update(String title, String content) {
 		this.title = title;
 		this.content = content;
 	}

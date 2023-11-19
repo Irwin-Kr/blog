@@ -1,8 +1,10 @@
 package config.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -75,7 +77,7 @@ class BlogControllerTest {
 		assertThat(articles.get(0).getContent()).isEqualTo(content);
 	}
 	
-	@DisplayName("findAllArticle : 전체 글 목록 조회")
+	@DisplayName("findAllArticles : 전체 글 목록 조회")
 	@Test
 	public void findAllArticle() throws Exception{
 		// given 
@@ -90,6 +92,74 @@ class BlogControllerTest {
 		
 		//then
 		result.andExpect(status().isOk()).andExpect(jsonPath("$[0].content").value(content)).andExpect(jsonPath("$[0].title").value(title));
+	}
+	
+	@DisplayName("findArticle : 글 단일 조회")
+	@Test
+	public void findArticle() throws Exception{
+		
+		// given
+		final String url="/articles/{id}";
+		final String title = "title";
+		final String content = "content";
+		
+		Article findArticle = blogRepository.save(Article.builder().title(title).content(content).build());
+		
+		// when
+		final ResultActions result = mockMvc.perform(get(url, findArticle.getId()));
+		
+		//then
+		result.andExpect(status().isOk()).andExpect(jsonPath("$.content").value(content)).andExpect(jsonPath("$.title").value(title));
+	}
+	
+	@DisplayName("deleteArticle : 글 삭제")
+	@Test
+	public void deleteArticle() throws Exception{
+		
+		// given
+		final String url = "/articles/{id}";
+		final String title = "title";
+		final String content = "content";
+		
+		Article deleteArticle = blogRepository.save(Article.builder().title(title).content(content).build());
+		
+		// when
+		mockMvc.perform(delete(url, deleteArticle.getId())).andExpect(status().isOk());
+		
+		// then
+		List<Article> articles = blogRepository.findAll();
+		
+		assertThat(articles).isEmpty();
+		
+	}
+	
+	@DisplayName("updateArticle : 글 수정")
+	@Test
+	public void updateArticle() throws Exception{
+		
+		// given
+		final String url = "/articles/{id}";
+		final String title = "title";
+		final String content = "content";
+		
+		Article saveArticle = blogRepository.save(Article.builder().title(title).content(content).build());
+		
+		final String newTitle = "new title";
+		final String newContent = "new content";
+		
+		ArticleDto updateArticle  = new ArticleDto(newTitle, newContent);
+		
+		// when
+		ResultActions result = mockMvc.perform(put(url, saveArticle.getId()).contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsString(updateArticle)));
+		
+		// then
+		result.andExpect(status().isOk());
+		
+		Article article = blogRepository.findById(saveArticle.getId()).get();
+		
+		assertThat(article.getTitle()).isEqualTo(newTitle);
+		assertThat(article.getContent()).isEqualTo(newContent);
+		
 	}
 	
 }
