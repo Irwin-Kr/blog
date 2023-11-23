@@ -1,6 +1,4 @@
 package config.domain;
-
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 public class User implements UserDetails{
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", updatable=false)
