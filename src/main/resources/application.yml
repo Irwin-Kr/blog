@@ -17,5 +17,5 @@ spring:
       enabled: true
 
 jwt:
-  issuer: irwinKr@gmail.com
+  issuer: ajufresh@gmail.com
   secret_key: study-springboot

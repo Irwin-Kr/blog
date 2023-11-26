@@ -18,7 +18,7 @@ import config.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 
 @SpringBootTest
-public class TokenProviderTest {
+class TokenProviderTest {
 
 	@Autowired
 	private TokenProvider tokenProvider;
@@ -27,7 +27,7 @@ public class TokenProviderTest {
 	private UserRepository userRepo;
 	
 	@Autowired
-	private JwtProperties jwt;
+	private JwtProperties jwtProperties;
 	
 	@DisplayName("generateToken() : 유저 정보와 만료 기간을 전달하는 토큰")
 	@Test
@@ -39,7 +39,7 @@ public class TokenProviderTest {
 		String token = tokenProvider.generateToken(testUser, Duration.ofDays(14));
 		
 		//then
-		Long userId = Jwts.parser().setSigningKey(jwt.getSecretKey()).parseClaimsJws(token).getBody().get("id", Long.class);
+		Long userId = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token).getBody().get("id", Long.class);
 		
 		assertThat(userId).isEqualTo(testUser.getId());
 	}
@@ -48,7 +48,7 @@ public class TokenProviderTest {
 	@Test
 	void validToken_invalidToken() {
 		//given
-		String token = JwtFactory.builder().expiration(new Date(new Date().getTime() - Duration.ofDays(7).toMillis())).build().createToken(jwt);
+		String token = JwtFactory.builder().expiration(new Date(new Date().getTime() - Duration.ofDays(7).toMillis())).build().createToken(jwtProperties);
 		
 		//when
 		boolean result = tokenProvider.validToken(token);
@@ -61,7 +61,7 @@ public class TokenProviderTest {
 	@Test
 	void validToken_validToken() {
 		//given
-		String token = JwtFactory.widthDefaultValues().createToken(jwt);
+		String token = JwtFactory.widthDefaultValues().createToken(jwtProperties);
 		
 		//when
 		boolean result = tokenProvider.validToken(token);
@@ -75,7 +75,7 @@ public class TokenProviderTest {
 	void gertAuthentication() {
 		//given
 		String email = "test@test.org";
-		String token = JwtFactory.builder().subject(email).build().createToken(jwt);
+		String token = JwtFactory.builder().subject(email).build().createToken(jwtProperties);
 		
 		//when
 		Authentication auth = tokenProvider.getAuthentication(token);
@@ -89,7 +89,7 @@ public class TokenProviderTest {
 	void getUserId() {
 		//given 
 		Long userId = 1L;
-		String token = JwtFactory.builder().claims(Map.of("id", userId)).build().createToken(jwt);
+		String token = JwtFactory.builder().claims(Map.of("id", userId)).build().createToken(jwtProperties);
 		
 		//when
 		Long userIdByToken = tokenProvider.getUserId(token);

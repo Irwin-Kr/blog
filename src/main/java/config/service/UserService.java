@@ -21,4 +21,8 @@ public class UserService {
 		
 	}
 	
+	public User findById(Long userId) {
+		return userRepo.findById(userId).orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+	}
+	
 }

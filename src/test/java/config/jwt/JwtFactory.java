@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.Duration;
-import java.util.Collections;
+import static java.util.Collections.emptyMap;
 import java.util.Date;
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class JwtFactory {
 	private String subject = "test@test.org";
 	private Date issuedAt = new Date();
 	private Date expiration = new Date(new Date().getTime() + Duration.ofDays(14).toMillis());
-	private Map<String, Object> claims = Collections.emptyMap();
+	private Map<String, Object> claims = emptyMap();
 	
 	@Builder
 	public JwtFactory(String subject, Date issuedAt, Date expiration, Map<String, Object> claims) {
@@ -31,9 +31,9 @@ public class JwtFactory {
 		return JwtFactory.builder().build();
 	}
 	
-	public String createToken(JwtProperties jwt) {
+	public String createToken(JwtProperties jwtProperties) {
 		return Jwts.builder().setSubject(subject).setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-				.setIssuer(jwt.getIssuer()).setIssuedAt(issuedAt).setExpiration(expiration).addClaims(claims).signWith(SignatureAlgorithm.HS256, jwt.getSecretKey())
+				.setIssuer(jwtProperties.getIssuer()).setIssuedAt(issuedAt).setExpiration(expiration).addClaims(claims).signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
 				.compact();
 	}
 	

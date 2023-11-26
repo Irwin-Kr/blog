@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class TokenProvider {
 
-	private final JwtProperties jwt;
+	private final JwtProperties jwtProperties;
 	
 	public String generateToken(User user, Duration expiredAt) {
 		Date now = new Date();
@@ -32,13 +32,13 @@ public class TokenProvider {
 		Date now = new Date();
 		
 		return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-				.setIssuer(jwt.getIssuer()).setIssuedAt(now).setExpiration(expiry).setSubject(user.getEmail()).claim("id", user.getId())
-				.signWith(SignatureAlgorithm.HS256, jwt.getSecretKey()).compact();
+				.setIssuer(jwtProperties.getIssuer()).setIssuedAt(now).setExpiration(expiry).setSubject(user.getEmail()).claim("id", user.getId())
+				.signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey()).compact();
 	}
 	
 	public boolean validToken(String token) {
 		try {
-			Jwts.parser().setSigningKey(jwt.getSecretKey()).parseClaimsJws(token);
+			Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token);
 			return true;
 		}catch(Exception e) {
 			return false;
@@ -57,6 +57,6 @@ public class TokenProvider {
 	}
 	
 	private Claims getClaims(String token) {
-		return Jwts.parser().setSigningKey(jwt.getSecretKey()).parseClaimsJws(token).getBody();
+		return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token).getBody();
 	}
 }
