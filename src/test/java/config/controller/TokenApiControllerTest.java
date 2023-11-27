@@ -62,7 +62,7 @@ class TokenApiControllerTest {
 	@Test
 	public void createNewAccessToken() throws Exception{
 		//given
-		final String url = "/api/token";
+		final String url = "/additional/token";
 		
 		User testUser = userRepo.save(User.builder().email("test@test.org").password("test").build());
 		String refreshToken = JwtFactory.builder().claims(Map.of("id", testUser.getId())).build().createToken(jwtProperties);

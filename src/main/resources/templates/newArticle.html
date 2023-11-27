@@ -22,8 +22,8 @@
 						<section class="mb-5">
 							<textarea class="form-control h-25" rows="10" placeholder="내용" id="content" th:value="${article.content}"></textarea>
 						</section>
-						<button th:if="${article.id} != null" type="button" id="update-btn" class="btn btn-primary btn-sm">수정</button>
-						<button th:if="${article.id} == null" type="button" id="create-btn" class="btn btn-primary btn-sm">등록</button>
+						<button th:if="${article.id} != '0'" type="button" id="update-btn" class="btn btn-primary btn-sm">수정</button>
+						<button th:if="${article.id} == '0'" type="button" id="create-btn" class="btn btn-primary btn-sm">등록</button>
 					</article>
 				</div>
 			</div>

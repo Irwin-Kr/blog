@@ -1,5 +1,5 @@
 package config;
-
+/*
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +35,7 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
+	
 	private final UserDetailService userService;
 	
 	@Bean
@@ -64,7 +65,7 @@ public class WebSecurityConfig {
 		http.logout((logout) -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true));
 		http.csrf(AbstractHttpConfigurer::disable);
 		return http.build();
-		*/
+		//
 		http.csrf(AbstractHttpConfigurer::disable);
 		//http.exceptionHandling((handling) -> handling.authenticationEntryPoint(null).accessDeniedHandler(null));
 		http.headers((headers)->headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
@@ -87,3 +88,4 @@ public class WebSecurityConfig {
 	
 
 }
+*/

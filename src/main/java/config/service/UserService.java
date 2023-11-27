@@ -13,16 +13,20 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepo;
-	private final BCryptPasswordEncoder bcrypt;
+	//private final BCryptPasswordEncoder bcrypt;
 	
 	public Long regist(UserDto userDto) {
-		
-		return userRepo.save(User.builder().email(userDto.getEmail()).password(bcrypt.encode(userDto.getPassword())).build()).getId();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return userRepo.save(User.builder().email(userDto.getEmail()).password(encoder.encode(userDto.getPassword())).build()).getId();
 		
 	}
 	
 	public User findById(Long userId) {
 		return userRepo.findById(userId).orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+	}
+	
+	public User findByEmail(String email) {
+		return userRepo.findByEmail(email).orElseThrow(()-> new IllegalArgumentException("Unexpected user"));
 	}
 	
 }

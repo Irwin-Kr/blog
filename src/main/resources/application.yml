@@ -15,6 +15,18 @@ spring:
   h2:
     console:
       enabled: true
+      
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+          #외부 사이트 업로드 불가
+            client-id: 
+            client-secret: 
+            scope:
+              - email
+              - profile
 
 jwt:
   issuer: ajufresh@gmail.com

@@ -1,5 +1,6 @@
 package config.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -40,8 +41,8 @@ public class BlogController {
 	
 	
 	@PostMapping("/additional/article")
-	public ResponseEntity<Article> addArticle(@RequestBody ArticleDto dto ){
-		Article addArticle = blogService.save(dto);
+	public ResponseEntity<Article> addArticle(@RequestBody ArticleDto dto, Principal principal ){
+		Article addArticle = blogService.save(dto, principal.getName());
 		return ResponseEntity.status(HttpStatus.CREATED).body(addArticle);
 	}
 	
