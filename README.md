@@ -1,5 +1,5 @@
 # blog
 
-[OAuth2 로그인](http://irwinblog-env.eba-axbt9wmu.ap-northeast-2.elasticbeanstalk.com/login)
+* [OAuth2 로그인](http://irwinblog-env.eba-axbt9wmu.ap-northeast-2.elasticbeanstalk.com/login)
 <br>
-[게시글](http://irwinblog-env.eba-axbt9wmu.ap-northeast-2.elasticbeanstalk.com/article)
+* [게시글](http://irwinblog-env.eba-axbt9wmu.ap-northeast-2.elasticbeanstalk.com/article)
